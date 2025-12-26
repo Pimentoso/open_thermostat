@@ -53,7 +53,7 @@ switch:
         red: 100%
         green: 40%
         blue: 0%
-        effect: scan
+        effect: circle
   on_turn_off:
     - light.turn_off: rgb_leds
   
@@ -106,12 +106,21 @@ light:
   chipset: WS2812
   rgb_order: GRB
   num_leds: 24
-  color_correct: [30%, 30%, 30%]
+  color_correct: [25%, 25%, 25%]
   effects:
-  - addressable_scan:
-      name: scan
-      move_interval: 500ms
-      scan_width: 3
+  - addressable_lambda:
+      name: circle
+      update_interval: 500ms
+      lambda: |-
+        static int pos = 0;
+        int len = it.size();
+        // clear strip
+        for (int i = 0; i < len; i++) it[i] = Color(0, 0, 0);
+        // light 3 consecutive LEDs (unidirectional)
+        for (int j = 0; j < 3; j++) {
+          it[(pos + j) % len] = Color(255, 100, 0);
+        }
+        pos = (pos + 1) % len;
 
 globals:
 - id: jitter
@@ -205,5 +214,7 @@ climate:
   preset:
     - name: Home
       default_target_temperature_low: ${day_temp} °C
+      mode: heat
     - name: Night
       default_target_temperature_low: ${night_temp} °C
+      mode: heat
