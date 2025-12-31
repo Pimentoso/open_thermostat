@@ -123,6 +123,13 @@ light:
           it[(pos + j) % len] = Color(255, 100, 0);
         }
         pos = (pos + 1) % len;
+- platform: status_led
+  name: "${device_name}-status-led"
+  icon: "mdi:alarm-light"
+  restore_mode: ALWAYS_OFF
+  pin:
+    number: GPIO15
+    inverted: false
 
 globals:
 - id: jitter
@@ -215,8 +222,8 @@ climate:
   default_preset: Home
   preset:
     - name: Home
-      default_target_temperature_low: ${day_temp} °C
+      default_target_temperature_low: ${day_temp}
       mode: heat
     - name: Night
-      default_target_temperature_low: ${night_temp} °C
+      default_target_temperature_low: ${night_temp}
       mode: heat
