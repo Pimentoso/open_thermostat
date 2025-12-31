@@ -26,6 +26,7 @@ wifi:
 captive_portal:
 
 logger:
+  baud_rate: 0
 
 api:
 
@@ -86,6 +87,7 @@ sensor:
     - sliding_window_moving_average:
         window_size: 12
         send_every: 4
+        send_first_at: 1
 
 button:
 - platform: restart
@@ -154,6 +156,7 @@ display:
   id: oled_display
   model: SSD1306 128x64
   address: 0x3C
+  rotation: 180
   pages:
     - id: display_page_1
       lambda: |-
